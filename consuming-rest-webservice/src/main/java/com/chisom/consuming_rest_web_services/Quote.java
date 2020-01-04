@@ -2,7 +2,7 @@ package com.chisom.consuming_rest_web_services;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)//from the Jackson JSON processing library to indicate that any properties not bound in this type should be ignored.
 public class Quote {
 
     private String type;
