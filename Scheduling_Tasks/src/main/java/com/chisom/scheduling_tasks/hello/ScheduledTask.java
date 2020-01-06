@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class ScheduledTask {
@@ -15,8 +17,19 @@ public class ScheduledTask {
 
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
+    public Map<String, String> myMap = new HashMap<>();
+
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
         log.info("the time is now {}", dateFormat.format(new Date()));
+
     }
+
+    @Scheduled(fixedRate = 6000)
+    public void addToMap() {
+        myMap.put("name", "john");
+        log.info("new map value added at {}", dateFormat.format(new Date()));
+        log.info("added {}", myMap.toString());
+    }
+
 }
