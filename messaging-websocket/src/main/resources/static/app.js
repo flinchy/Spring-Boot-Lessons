@@ -3,40 +3,40 @@ var stompClient = null;
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
-
-    if(connected) {
+    if (connected) {
         $("#conversation").show();
-    } else {
+    }
+    else {
         $("#conversation").hide();
     }
     $("#greetings").html("");
 }
 
 function connect() {
-    var socket = new SockJS("/gs-guide-websocket");
+    var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
+    stompClient.connect({}, function (frame) {
         setConnected(true);
-        console.log("connected" + frame);
-        stompClient.subscribe("/topic/greetings", function (greeting) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
 }
 
 function disconnect() {
-    if(stompClient != null) {
+    if (stompClient !== null) {
         stompClient.disconnect();
     }
     setConnected(false);
-    console.log("disconnected");
+    console.log("Disconnected");
 }
 
 function sendName() {
-    stompClient.send("app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
 }
 
-function showGreeting (message) {
+function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
 
