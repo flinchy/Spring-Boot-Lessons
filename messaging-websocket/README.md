@@ -20,3 +20,13 @@ The **configureMessageBroker()** method implements the default method in **WebSo
 It starts by calling **enableSimpleBroker()** to enable a simple memory-based message broker to carry the greeting messages back to the client on destinations prefixed with **"/topic"**. 
 It also designates the **"/app"** prefix for messages that are bound for **@MessageMapping-annotated** methods. This prefix will be used to define all the message mappings; 
 for example, **"/app/hello"** is the endpoint that the GreetingController.greeting() method is mapped to handle.
+
+## In the app.js
+
+The main piece of this JavaScript file to pay attention to is the **connect()** and **sendName()** functions.
+
+The **connect()** function uses *SockJS* and *stomp.js* to open a connection to **"/gs-guide-websocket"**, which is where our SockJS server is waiting for connections. 
+Upon a successful connection, the client subscribes to the **"/topic/greetings"** destination, where the server will publish greeting messages. When a greeting is received 
+on that destination, it will append a paragraph element to the DOM to display the greeting message.
+
+The **sendName()** function retrieves the name entered by the user and uses the **STOMP client** to send it to the **"/app/hello"** destination (where GreetingController.greeting() will receive it).
