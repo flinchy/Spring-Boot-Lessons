@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+import static com.chisom.spring_security_jwt_RBA.security.SecurityConstants.H2_URL;
+import static com.chisom.spring_security_jwt_RBA.security.SecurityConstants.SIGN_UP_URLS;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity( // For Role based Authorization in the future
@@ -46,7 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
-                .antMatchers("/api/users/**").permitAll()
+                .antMatchers(SIGN_UP_URLS)
+                .permitAll()
+                .antMatchers(H2_URL)
+                .permitAll()
                 .anyRequest().authenticated();
     }
 }
