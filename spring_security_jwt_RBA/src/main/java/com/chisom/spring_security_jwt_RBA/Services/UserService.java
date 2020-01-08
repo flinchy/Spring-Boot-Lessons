@@ -22,14 +22,14 @@ public class UserService {
             newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 
             //make sure that the email is unique
-            newUser.setEmail(newUser.getEmail());
+            newUser.setUsername(newUser.getUsername());
             //make sure that the password and confirmPassword match
             //we do not persist the confirmPassword
             newUser.setConfirmPassword("");
             return userRepository.save(newUser);
 
         } catch (Exception ex) {
-            throw new UsernameAlreadyExistsException("Email '" + newUser.getEmail() +"' already exists");
+            throw new UsernameAlreadyExistsException("Username '" + newUser.getUsername() +"' already exists");
         }
 
     }
