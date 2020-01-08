@@ -1,10 +1,10 @@
 package com.chisom.spring_security_jwt_RBA.exceptions;
 
-public class EmailAlreadyExistsResponse {
+public class UsernameAlreadyExistsResponse {
 
     private String email;
 
-    public EmailAlreadyExistsResponse(String email) {
+    public UsernameAlreadyExistsResponse(String email) {
         this.email = email;
     }
 

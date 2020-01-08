@@ -1,6 +1,6 @@
 package com.chisom.spring_security_jwt_RBA.Services;
 
-import com.chisom.spring_security_jwt_RBA.exceptions.EmailAlreadyExistsException;
+import com.chisom.spring_security_jwt_RBA.exceptions.UsernameAlreadyExistsException;
 import com.chisom.spring_security_jwt_RBA.model.User;
 import com.chisom.spring_security_jwt_RBA.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserService {
             return userRepository.save(newUser);
 
         } catch (Exception ex) {
-            throw new EmailAlreadyExistsException("Email '" + newUser.getEmail() +"' already exists");
+            throw new UsernameAlreadyExistsException("Email '" + newUser.getEmail() +"' already exists");
         }
 
     }

@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class User implements UserDetails   {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class User implements UserDetails   {
     @Email(message = "Username needs to be an email")
     @NotBlank(message = "Username is required")
     @Column(unique = true)
-    private String email;
+    private String username;
     @NotBlank(message = "Please enter your full name")
     private String fullName;
     @NotBlank(message = "password field is required")
@@ -49,11 +49,11 @@ public class User implements UserDetails   {
     }
 
     public String getEmail() {
-        return email;
+        return username;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.username = email;
     }
 
     public String getFullName() {
