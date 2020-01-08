@@ -1,13 +1,18 @@
 package com.chisom.spring_security_jwt_RBA.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class User {
+public class User implements UserDetails   {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -105,5 +110,56 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.create_At = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.update_At = new Date();
+    }
+
+
+    /**
+     * UserDetails Interface Methods
+     */
+    @Override
+    @JsonIgnore
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
     }
 }
