@@ -48,12 +48,13 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getEmail() {
+    @Override
+    public String getUsername() {
         return username;
     }
 
-    public void setEmail(String email) {
-        this.username = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFullName() {
@@ -64,6 +65,7 @@ public class User implements UserDetails {
         this.fullName = fullName;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -128,14 +130,7 @@ public class User implements UserDetails {
      */
     @Override
     @JsonIgnore
-
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getUsername() {
         return null;
     }
 
