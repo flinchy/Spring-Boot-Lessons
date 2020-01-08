@@ -2,17 +2,17 @@ package com.chisom.spring_security_jwt_RBA.exceptions;
 
 public class UsernameAlreadyExistsResponse {
 
-    private String email;
+    private String username;
 
-    public UsernameAlreadyExistsResponse(String email) {
-        this.email = email;
+    public UsernameAlreadyExistsResponse(String username) {
+        this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
