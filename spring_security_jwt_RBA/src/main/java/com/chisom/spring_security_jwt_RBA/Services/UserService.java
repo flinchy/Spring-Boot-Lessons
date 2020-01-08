@@ -1,5 +1,6 @@
 package com.chisom.spring_security_jwt_RBA.Services;
 
+import com.chisom.spring_security_jwt_RBA.exceptions.EmailAlreadyExistsException;
 import com.chisom.spring_security_jwt_RBA.model.User;
 import com.chisom.spring_security_jwt_RBA.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,20 @@ public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User saveUser (User newUser) {
-        newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 
-        //make sure that the email is unique
-        //make sure that the password and confirmPassword match
-        //we do not persist the confirmPassword
+        try {
+            newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 
-        return userRepository.save(newUser);
+            //make sure that the email is unique
+            newUser.setEmail(newUser.getEmail());
+            //make sure that the password and confirmPassword match
+            //we do not persist the confirmPassword
+            newUser.setConfirmPassword("");
+            return userRepository.save(newUser);
+
+        } catch (Exception ex) {
+            throw new EmailAlreadyExistsException("Email '" + newUser.getEmail() +"' already exists");
+        }
+
     }
 }
