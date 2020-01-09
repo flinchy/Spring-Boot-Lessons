@@ -25,7 +25,6 @@ import static com.chisom.spring_security_jwt_RBA.security.SecurityConstants.SIGN
         jsr250Enabled = true,
         prePostEnabled = true
 )
-
 /**
  * WebSecurityConfigurerAdapter provides some default security configurations what we are doing by extending it is that it is
  * going to allow us to customize those security configurations by overriding some of its methods

@@ -2,6 +2,7 @@ package com.chisom.spring_security_jwt_RBA.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -9,14 +10,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
 
     @Email(message = "Username needs to be an email")
@@ -24,7 +25,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
     @NotBlank(message = "Please enter your full name")
-    private String fullName;
+    private String fullname;
     @NotBlank(message = "password field is required")
     private String password;
     @Transient
@@ -33,9 +34,12 @@ public class User implements UserDetails {
     private Date create_At;
     private Date update_At;;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
+
 
     public User() {
     }
@@ -57,12 +61,12 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullName) {
+        this.fullname = fullName;
     }
 
     @Override
@@ -106,11 +110,11 @@ public class User implements UserDetails {
         this.update_At = update_At;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -131,7 +135,11 @@ public class User implements UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+
+        return getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .collect(Collectors.toList());
     }
 
     @Override

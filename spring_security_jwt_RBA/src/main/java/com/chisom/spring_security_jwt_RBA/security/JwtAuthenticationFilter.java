@@ -2,6 +2,7 @@ package com.chisom.spring_security_jwt_RBA.security;
 
 import com.chisom.spring_security_jwt_RBA.Services.CustomUserDetailsService;
 import com.chisom.spring_security_jwt_RBA.model.User;
+import com.chisom.spring_security_jwt_RBA.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Collections;
 
 import static com.chisom.spring_security_jwt_RBA.security.SecurityConstants.HEADER_STRING;
@@ -36,10 +38,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
+                String username = tokenProvider.getUsernameFromJWT(jwt);
                 User userDetails = customUserDetailsService.loadUserById(userId);
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, Collections.emptyList() //this collections.empty List parameter is where we will put the roles of the user
+                        userDetails, null, customUserDetailsService.loadUserByUsername(username).getAuthorities() //this collections.empty List parameter is where we will put the roles of the user
                         //if we are to implement it
                 );
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
