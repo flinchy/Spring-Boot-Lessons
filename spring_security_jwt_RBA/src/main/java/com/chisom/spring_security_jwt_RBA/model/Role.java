@@ -1,16 +1,20 @@
 package com.chisom.spring_security_jwt_RBA.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
     private Long id;
 
     private String role;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
     public Role() {
     }
