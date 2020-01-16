@@ -82,6 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(H2_URL)
                 .permitAll()
                 .anyRequest().authenticated();
+//                .and()
+//                .formLogin()
+//                .loginPage("url for the login page")
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

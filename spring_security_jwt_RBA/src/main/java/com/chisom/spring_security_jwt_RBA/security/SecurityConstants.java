@@ -2,7 +2,6 @@ package com.chisom.spring_security_jwt_RBA.security;
 
 public class SecurityConstants {
 
-
     public static final String SIGN_UP_URLS = "/api/v1/users/**";
     public static final String H2_URL = "/h2/**";
     /**
