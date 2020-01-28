@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import static org.quartz.SimpleScheduleBuilder.*;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -31,7 +32,7 @@ public class EmailJobSchedulerService {
                 ScheduleEmailResponse scheduleEmailResponse = new ScheduleEmailResponse(false,
                         "dateTime must be after current time");
                 return ResponseEntity.badRequest().body(scheduleEmailResponse);
-            }git
+            }
 
             JobDetail jobDetail = buildJobDetail(scheduleEmailRequest);
             Trigger trigger = buildJobTrigger(jobDetail, dateTime);
@@ -49,6 +50,12 @@ public class EmailJobSchedulerService {
         }
     }
 
+    /**
+     *
+     * @param scheduleEmailRequest email to be sent
+     * @JobDetail is used to define instances of jobs
+     * @return a JobBuilder that is used to build JobDetail Instances.
+     */
     private JobDetail buildJobDetail(ScheduleEmailRequest scheduleEmailRequest) {
         JobDataMap jobDataMap = new JobDataMap();
 
@@ -65,12 +72,20 @@ public class EmailJobSchedulerService {
     }
 
     private Trigger buildJobTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
+
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
                 .withIdentity(jobDetail.getKey().getName(), "email-triggers")
                 .withDescription("Send Email Trigger")
                 .startAt(Date.from(startAt.toInstant()))
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
+
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withMisfireHandlingInstructionFireNow()
+                        .withIntervalInSeconds(40)
+                        .repeatForever())
+//                .withSchedule(simpleSchedule()
+//                        .withIntervalInSeconds(40)
+//                        .repeatForever())
                 .build();
     }
 
