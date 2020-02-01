@@ -8,3 +8,5 @@ To add source link i.e git-localconfig-repo, for configurations
 - create a file called limits-service.properties
 
 visit http://localhost:8888/limitss-service/default to see configuration
+
+Spring-Cloud-Config-Server is used to manage all the configurations related to multiple microservices
