@@ -17,4 +17,11 @@ public class CustomResponseEntityExceptionHandler {
         UsernameAlreadyExistsResponse exceptionResponse = new UsernameAlreadyExistsResponse(ex.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleDepartmentNotFoundException(DepartmentNotFoundException ex, WebRequest request) {
+
+        DepartmentNotFoundResponse exceptionResponse = new DepartmentNotFoundResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 }

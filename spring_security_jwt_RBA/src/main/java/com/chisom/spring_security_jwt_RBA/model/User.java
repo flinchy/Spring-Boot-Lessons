@@ -40,6 +40,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "department_id", updatable = false, nullable = false)
+    private Department department;
+
 
     public User() {
     }
@@ -116,6 +120,14 @@ public class User implements UserDetails {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @PrePersist
