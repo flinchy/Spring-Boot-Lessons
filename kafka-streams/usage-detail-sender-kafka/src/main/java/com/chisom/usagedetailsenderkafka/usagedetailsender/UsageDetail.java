@@ -1,4 +1,4 @@
-package com.chisom.usagedetailsenderkafka;
+package com.chisom.usagedetailsenderkafka.usagedetailsender;
 
 public class UsageDetail {
 
